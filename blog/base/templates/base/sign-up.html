@@ -1,0 +1,42 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+<h1>Sign In</h1>
+
+<form method="post" action=".">
+    {% csrf_token %}
+    <div>
+        <label>username:<br>
+            {{ form.username }}
+        </label>
+    </div>
+    <div>
+        <label>email:<br>
+            {{ form.email }}
+        </label>
+    </div>
+    <div>
+        <label>password:<br>
+            {{ form.password1 }}
+        </label>
+    </div><div>
+        <label>repeat password:<br>
+            {{ form.password2 }}
+        </label>
+    </div>
+    {% if form.errors or form.non_field_errors %}
+        {% for field in form %}
+            {% for error in field.errors %}
+                <p>{{ field.label }}: {{ error }}</p>
+            {% endfor %}
+        {% endfor %}
+        {{ form.non_field_errors }}
+    {% endif %}
+
+    <div class="mt-4">
+        <button type="submit" class="px-2 bg-orange-200 text-white font-bold border round-xl">Sign In</button>
+    </div>
+</form>
+
+<p>If you already have an account <a href="{% url 'base:signup' %}" class="underline">Sign In</a></p>
+{% endblock %}
