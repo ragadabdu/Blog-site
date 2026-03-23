@@ -1,8 +1,12 @@
 from django.shortcuts import render, redirect
+from pages.models import Post
 from .forms import SignupForm
 
 def homepage(request):
-    return render(request, 'base/homepage.html')
+    posts = Post.objects.all()
+    return render(request, 'base/homepage.html',{
+        'posts':posts,
+    })
 
 def signup(request):
     if request.method == 'POST':
