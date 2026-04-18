@@ -1,10 +1,32 @@
 {% extends 'base/base.html' %}
 
 {% block content %}
-<h1>welcome</h1>
+    <!-- POST CONTENT -->
+    <div class="container py-5">
+        <div class="post-container">
+            {% if user.is_authenticated and user == post.author %}
+                <button href="{% url 'pages:delete' post.id %}" class="btn btn-danger">DELETE</button>
+            {% endif %}
 
-    <title>{{ post.title }}</title>
-    <p>{{ post.keyword }}</p>
-    <p><a href="/">view more</a></p>
+            <!-- Back -->
+            <a href="/" class="back-link text-muted">← Back to posts</a>
 
-{% endblock %}
+            <!-- Title -->
+            <h1 class="post-title mt-3 mb-2">{{ post.title }}</h1>
+
+            <!-- Meta -->
+            <p class="post-meta">
+                {{ post.created_at|date:"F d, Y" }}
+            </p>
+
+            <hr>
+
+            <!-- Content -->
+            <div class="post-content mt-4">
+                {{ post.content|linebreaks }}
+            </div>
+
+        </div>
+    </div>
+{% endblock%}
+ 

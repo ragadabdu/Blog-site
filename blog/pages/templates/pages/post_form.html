@@ -1,34 +1,65 @@
 {% extends 'base/base.html' %}
 
 {% block content %}
-<form method="post" action="." enctype="multipart/form-data">
-    {% csrf_token %}
-    <div>
-        <label>Post Title:<br>
-            {{ form.title }}
-        </label>
-    </div>
-    <div>
-        <label>Content:<br>
-            {{ form.content }}
-        </label>
-    </div>
-    <div>
-        <label>keywords:<br>
-            {{ form.keyword }}
-        </label>
-    </div>
-    {% if form.errors or form.non_field_errors %}
-        {% for field in form %}
-            {% for error in form.non_field_errors %}
-                <p>{{ field.label }}: {{error}}</p>
-            {% endfor %}
-        {% endfor %}
 
-        {{ form.non_field_errors }}
-    {% endif %}
-    <div class="mt-4">
-        <button type="submit" class="px-2 bg-orange-200 text-white font-bold border round-xl">Post</button>
+<div class="container d-flex align-items-center justify-content-center" style="min-height: 80vh;">
+    
+    <div class="card shadow-sm p-4 w-100" style="max-width: 600px; border-radius: 16px;">
+        
+        <h3 class="text-center mb-3 fw-bold">Create a New Post</h3>
+        <p class="text-center text-muted small mb-4">Share your thoughts with the world</p>
+
+        <form method="post" action="." enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- Title -->
+            <div class="mb-3">
+                <label class="form-label">Post Title</label>
+                {{ form.title }}
+            </div>
+
+            <!-- Content -->
+            <div class="mb-3">
+                <label class="form-label">Content</label>
+                {{ form.content }}
+            </div>
+
+            <!-- Keywords / Tags -->
+            <div class="mb-3">
+                <label class="form-label">Keywords</label>
+                {{ form.keyword }}
+            </div>
+
+            <!-- Featured Image (Optional) -->
+            {% if form.image %}
+            <div class="mb-3">
+                <label class="form-label">Featured Image</label>
+                {{ form.image }}
+            </div>
+            {% endif %}
+
+            <!-- Errors -->
+            {% if form.errors or form.non_field_errors %}
+                <div class="alert alert-danger py-2">
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <div>{{ field.label }}: {{ error }}</div>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <div>{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <!-- Submit Button -->
+            <div class="d-grid mt-3">
+                <button type="submit" class="btn btn-dark">Post</button>
+            </div>
+
+        </form>
+
     </div>
-</form>
+</div>
+
 {% endblock %}

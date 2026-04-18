@@ -1,33 +1,64 @@
 {% extends 'base/base.html' %}
 
 {% block content %}
-<h1>Login In</h1>
 
-<form method="post" action=".">
-    {% csrf_token %}
-    <div>
-        <label>username:<br>
-            {{ form.username }}
-        </label>
-    </div>
-    <div>
-        <label>password:<br>
-            {{ form.password }}
-        </label>
-    </div>
-    {% if form.errors or form.non_field_errors %}
-        {% for field in form %}
-            {% for error in field.errors %}
-                <p>{{ field.label }}: {{ error }}</p>
-            {% endfor %}
-        {% endfor %}
+<div class="container d-flex align-items-center justify-content-center" style="min-height: 80vh;">
+    
+    <div class="card shadow-sm p-4" style="width: 100%; max-width: 400px; border-radius: 16px;">
+        
+        <!-- Title -->
+        <h3 class="text-center mb-3 fw-bold">Welcome back</h3>
+        <p class="text-center text-muted small mb-4">Sign in to your account</p>
 
-        {{ form.non_field_errors }}
-    {% endif %}
-    <div class="mt-4">
-        <button type="submit" class="px-2 bg-orange-200 text-white font-bold border round-xl">Login</button>
-    </div>
-</form>
+        <!-- Form -->
+        <form method="post" action=".">
+            {% csrf_token %}
 
-<p>If you dont have an account <a href="{% url 'base:signup' %}" class="underline">Sign In</a></p>
+            <!-- Username -->
+            <div class="mb-3">
+                <label class="form-label">Username</label>
+                {{ form.username }}
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                {{ form.password }}
+            </div>
+
+            <!-- Errors -->
+            {% if form.errors or form.non_field_errors %}
+                <div class="alert alert-danger py-2">
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <div>{{ error }}</div>
+                        {% endfor %}
+                    {% endfor %}
+
+                    {% for error in form.non_field_errors %}
+                        <div>{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <!-- Button -->
+            <div class="d-grid mt-3">
+                <button type="submit" class="btn btn-dark">
+                    Login
+                </button>
+            </div>
+        </form>
+
+        <!-- Footer -->
+        <p class="text-center mt-4 small">
+            Don’t have an account?
+            <a href="{% url 'base:signup' %}" class="text-decoration-none fw-semibold">
+                Sign up
+            </a>
+        </p>
+
+    </div>
+
+</div>
+
 {% endblock %}

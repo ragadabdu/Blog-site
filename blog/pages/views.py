@@ -9,15 +9,16 @@ def post_form(request):
         form = NewPostForm(request.POST)
 
         if form.is_valid():
-            post = form.save()
-            post.save()
-            return redirect ('pages:post_detail', pk=post.id)
+            post = form.save(commit=False)  
+            post.author = request.user     
+            post.save()                     
+            return redirect('pages:post_detail', pk=post.id)
     
     else:
         form = NewPostForm()
 
     return render(request, 'pages/post_form.html', {
-        "form":form,
+        "form": form,
     })
 
 def post_detail(request, pk):
@@ -25,3 +26,8 @@ def post_detail(request, pk):
     return render(request, 'pages/post_detail.html', {
         'post': post,
     })
+
+def delete(request, pk):
+    post = get_object_or_404(Post, pk=pk, author=request.user)
+    post.delete()
+    return redirect('base:homepage')
